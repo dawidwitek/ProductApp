@@ -1,0 +1,11 @@
+@import "../../core/variables/variables.scss";
+
+li {
+  list-style-type: none;
+  line-height: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: $primaryColor;
+}

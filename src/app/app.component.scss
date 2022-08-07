@@ -1,0 +1,30 @@
+@import "core/variables/variables.scss";
+
+.main {
+  display: flex;
+  flex-wrap: row;
+
+  &__left-side-navbar {
+    height: 100vh;
+    background: $secondaryColor;
+    padding-top: 50px;
+    padding-right: 50px;
+  }
+
+  &__right-side-content {
+    padding: 50px;
+    width: 90%;
+  }
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: column;
+}
+
+@media only screen and (max-width: 768px) {
+  .main {
+    flex-direction: column;
+  }
+}

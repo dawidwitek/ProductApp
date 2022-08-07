@@ -1,0 +1,16 @@
+@import "../../../core/variables/variables.scss";
+
+table {
+  width: 100%;
+}
+
+th {
+  background: $secondaryColor;
+  min-width: 100px;
+}
+
+.table {
+  &__total {
+    text-align: right;
+  }
+}

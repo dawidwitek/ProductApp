@@ -1,0 +1,79 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <ng-container class="productsForm__container" formArrayName="products">
+    <ng-container *ngFor="let productForm of productControls; let i = index">
+      <div class="productsForm__row" [formGroup]="productForm">
+        <mat-form-field appearance="legacy">
+          <input matInput formControlName="name" placeholder="Product name" />
+          <mat-error *ngIf="productForm.get('name')?.errors?.['required']"
+            >Name is required</mat-error
+          >
+          <mat-error *ngIf="productForm.get('name')?.errors?.['minlength']"
+            >Min length 3
+          </mat-error>
+          <mat-error *ngIf="productForm.get('name')?.errors?.['maxlength']"
+            >Max length 30
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy">
+          <input
+            (change)="onChange(productForm)"
+            matInput
+            formControlName="count"
+            placeholder="Product count"
+          />
+          <mat-error *ngIf="productForm.get('count')?.errors?.['required']"
+            >Count is required
+          </mat-error>
+          <mat-error *ngIf="productForm.get('count')?.errors?.['min']"
+            >Min 1
+          </mat-error>
+          <mat-error *ngIf="productForm.get('count')?.errors?.['max']"
+            >Max 100
+          </mat-error>
+          <mat-error *ngIf="productForm.get('count')?.errors?.['pattern']"
+            >Please input number
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy">
+          <input matInput formControlName="price" placeholder="Product price" />
+          <mat-error *ngIf="productForm.get('price')?.errors?.['min']"
+            >Min 1
+          </mat-error>
+          <mat-error *ngIf="productForm.get('price')?.errors?.['max']"
+            >Max 1000000
+          </mat-error>
+          <mat-error *ngIf="productForm.get('price')?.errors?.['pattern']"
+            >Please input number
+          </mat-error>
+          <mat-error *ngIf="productForm.get('price')?.errors?.['required']"
+            >Price is required
+          </mat-error>
+        </mat-form-field>
+
+        <button
+          type="button"
+          class="productsForm__button-delete"
+          (click)="onDeleteProduct(i)"
+          mat-mini-fab
+          aria-label="Delete"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </ng-container>
+    <button
+      type="button"
+      (click)="onAddProduct()"
+      mat-button
+      class="productsForm__button-add"
+    >
+      <mat-icon>add</mat-icon>Add new product
+    </button>
+  </ng-container>
+
+  <button type="submit" class="productsForm__button-submit" mat-flat-button>
+    Submit
+  </button>
+</form>
