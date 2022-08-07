@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Product } from '../models/Product';
+import { Product } from '../models/product.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ export class ProductService {
     this.router.navigate(['summary']);
   }
 
-  public clearProductsValue(newValue: []): void {
-    this._products$.next(newValue);
+  public clearProductsValue(): void {
+    this._products$.next([]);
   }
 }
