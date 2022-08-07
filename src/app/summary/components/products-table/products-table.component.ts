@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Product } from 'src/app/core/models/Product';
-import { ProductService } from 'src/app/core/services/product.service';
+import { Product } from 'src/app/core/models/product.interface';
 
 @Component({
   selector: 'app-products-table',
@@ -8,18 +7,17 @@ import { ProductService } from 'src/app/core/services/product.service';
   styleUrls: ['./products-table.component.scss'],
 })
 export class ProductsTableComponent implements OnInit {
-  @Input() products: Product[] = [];
-  displayedColumns: string[] = ['id', 'name', 'count', 'price'];
+  @Input() public products: Product[] = [];
+  public displayedColumns: string[] = ['id', 'name', 'count', 'price'];
+  public totalProductsPrice: number = 0;
 
-  constructor(private productService: ProductService) {}
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.countItems();
   }
 
-  countItems() {
-    return this.products.reduce(
-      (prev, next) => prev + next.count * next.price,
+  public countItems(): void {
+    this.totalProductsPrice = this.products.reduce(
+      (prev: number, next: Product) => prev + next.count * next.price,
       0
     );
   }

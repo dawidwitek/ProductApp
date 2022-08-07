@@ -3,5 +3,8 @@
 </div>
 
 <footer>
-  <app-company-data [companyData]="companyData"></app-company-data>
+  <app-company-data
+    *ngIf="companyData$ | async as companyData"
+    [companyData]="companyData"
+  ></app-company-data>
 </footer>

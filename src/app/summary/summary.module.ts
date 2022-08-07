@@ -8,7 +8,11 @@ import { MatTableModule } from '@angular/material/table';
 import { CompanyDataComponent } from './components/company-data/company-data.component';
 
 @NgModule({
-  declarations: [SummaryComponent, ProductsTableComponent, CompanyDataComponent],
+  declarations: [
+    SummaryComponent,
+    ProductsTableComponent,
+    CompanyDataComponent,
+  ],
   imports: [CommonModule, SummaryRoutingModule, MatTableModule],
 })
 export class SummaryModule {}

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Company } from '../models/Company';
+import { Company } from '../models/company.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import { Company } from '../models/Company';
 export class CompanyService {
   constructor(private http: HttpClient) {}
 
-  getCompanyData(): Observable<Company> {
+  public getCompanyData(): Observable<Company> {
     return this.http.get<Company>('../assets/company.json');
   }
 }

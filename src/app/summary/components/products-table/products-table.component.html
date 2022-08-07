@@ -28,7 +28,7 @@
 
   <ng-container matColumnDef="total">
     <td mat-footer-cell *matFooterCellDef colspan="4">
-      Total: <strong>{{ countItems() | currency }}</strong>
+      Total: <strong>{{ totalProductsPrice | currency }}</strong>
     </td>
   </ng-container>
 
@@ -38,5 +38,3 @@
 </table>
 
 <p *ngIf="!products.length">No items</p>
-
-<pre>{{ products.length | json }}</pre>
