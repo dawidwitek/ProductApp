@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Product } from 'src/app/core/models/Product';
-import { ProductService } from 'src/app/core/services/product.service';
 
 @Component({
   selector: 'app-products-table',
@@ -9,16 +8,17 @@ import { ProductService } from 'src/app/core/services/product.service';
 })
 export class ProductsTableComponent implements OnInit {
   @Input() products: Product[] = [];
-  displayedColumns: string[] = ['id', 'name', 'count', 'price'];
+  public displayedColumns: string[] = ['id', 'name', 'count', 'price'];
+  public totalProductsPrice: number = 0;
 
-  constructor(private productService: ProductService) {}
+  constructor() {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.countItems();
   }
 
-  countItems() {
-    return this.products.reduce(
+  public countItems(): void {
+    this.totalProductsPrice = this.products.reduce(
       (prev, next) => prev + next.count * next.price,
       0
     );

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Company } from '../core/models/Company';
 import { Product } from '../core/models/Product';
 import { CompanyService } from '../core/services/company.service';
@@ -12,14 +12,9 @@ import { ProductService } from '../core/services/product.service';
 })
 export class SummaryComponent implements OnInit, OnDestroy {
   products: Product[] = [];
-  companyData: Company = {
-    name: '',
-    address: '',
-    phones: [],
-  };
 
-  companySub!: Subscription;
-  productsSub!: Subscription;
+  companyData$: Observable<Company>;
+  productsSub: Subscription;
 
   constructor(
     private productService: ProductService,
@@ -28,13 +23,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.productsSub = this.productService.products$.subscribe(
-      (data) => (this.products = data)
+      (data: Product[]) => (this.products = data)
     );
-
-    this.companySub = this.companyService
-      .getCompanyData()
-      .subscribe((data) => (this.companyData = data));
+    this.companyData$ = this.companyService.getCompanyData();
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.productService.clearProductsValue([]);
+    this.productsSub.unsubscribe();
+  }
 }

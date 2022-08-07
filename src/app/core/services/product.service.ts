@@ -1,23 +1,26 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../models/Product';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private products = new BehaviorSubject<Product[]>([]);
-  public products$ = this.products.asObservable();
-
-  private isAllowed = new BehaviorSubject<boolean>(false);
-  public isAllowed$ = this.isAllowed.asObservable();
-
-  formSubmitted(products: Product[]) {
-    this.products.next(products);
-    this.router.navigate(['summary']);
-    this.isAllowed.next(true);
-  }
+  private _products$ = new BehaviorSubject<Product[]>([]);
 
   constructor(private router: Router) {}
+
+  public get products$(): Observable<Product[]> {
+    return this._products$.asObservable();
+  }
+
+  public formSubmitted(products: Product[]): void {
+    this._products$.next(products);
+    this.router.navigate(['summary']);
+  }
+
+  public clearProductsValue(newValue: []): void {
+    this._products$.next(newValue);
+  }
 }

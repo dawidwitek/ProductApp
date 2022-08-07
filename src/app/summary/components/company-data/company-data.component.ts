@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { Company } from 'src/app/core/models/Company';
 
 @Component({
@@ -6,14 +12,17 @@ import { Company } from 'src/app/core/models/Company';
   templateUrl: './company-data.component.html',
   styleUrls: ['./company-data.component.scss'],
 })
-export class CompanyDataComponent implements OnInit {
-  @Input() companyData!: Company;
+export class CompanyDataComponent implements OnInit, OnChanges {
+  @Input() companyData: Company;
+  public companyPhones: string = '';
 
   constructor() {}
 
-  ngOnInit(): void {}
-
-  joinPhones() {
-    return this.companyData.phones.join(', ');
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.companyData) {
+      this.companyPhones = this.companyData.phones.join(', ');
+    }
   }
+
+  public ngOnInit(): void {}
 }

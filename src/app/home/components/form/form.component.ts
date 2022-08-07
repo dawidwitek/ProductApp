@@ -1,13 +1,12 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
-  FormControl,
   FormGroup,
   Validators,
   FormArray,
   FormBuilder,
-  AbstractControl,
-  Form,
+  FormControl,
 } from '@angular/forms';
+import { FormGroupKey } from 'src/app/core/enums/FormGroupKey.model';
 import { ProductService } from 'src/app/core/services/product.service';
 
 @Component({
@@ -16,33 +15,39 @@ import { ProductService } from 'src/app/core/services/product.service';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
-  form = this.fb.group({
-    products: this.fb.array([]),
-  });
+  public form: FormGroup;
+  public FormGroupKey: typeof FormGroupKey = FormGroupKey;
+
+  private regexPattern: string = '^0*?[1-9]\\d*$'; // Positive integer numbers including 0
 
   constructor(
     private productService: ProductService,
     private fb: FormBuilder
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    this.initForm();
     this.onAddProduct();
   }
 
-  get products() {
-    return this.form.controls['products'] as FormArray;
+  public initForm(): void {
+    this.form = this.fb.group({
+      products: this.fb.array([]),
+    });
   }
 
-  onChange(event: any) {}
-
-  get productControls() {
-    return (this.form.controls['products'] as FormArray)
-      .controls as FormGroup[];
+  public get products(): FormArray {
+    return this.form.get(FormGroupKey.PRODUCTS) as FormArray;
   }
 
-  onAddProduct() {
+  public get productControls(): FormControl[] {
+    return (this.form.get(FormGroupKey.PRODUCTS) as FormArray)
+      .controls as FormControl[];
+  }
+
+  public onAddProduct(): void {
     const productsForm = this.fb.group({
-      name: [
+      [FormGroupKey.NAME]: [
         '',
         [
           Validators.required,
@@ -50,20 +55,20 @@ export class FormComponent implements OnInit {
           Validators.maxLength(30),
         ],
       ],
-      count: [
+      [FormGroupKey.COUNT]: [
         '',
         [
           Validators.required,
-          Validators.pattern('^0*?[1-9]\\d*$'), // Positive integer numbers including 0
+          Validators.pattern(this.regexPattern),
           Validators.min(1),
           Validators.max(100),
         ],
       ],
-      price: [
+      [FormGroupKey.PRICE]: [
         '',
         [
           Validators.required,
-          Validators.pattern('^0*?[1-9]\\d*$'), // Positive integer numbers including 0
+          Validators.pattern(this.regexPattern),
           Validators.min(1),
           Validators.max(1000000),
         ],
@@ -73,19 +78,17 @@ export class FormComponent implements OnInit {
     this.products.push(productsForm);
   }
 
-  onDeleteProduct(index: number) {
+  public onDeleteProduct(index: number): void {
     this.products.removeAt(index);
   }
 
-  onSubmit() {
+  public onSubmit(): void {
     if (this.form.valid) {
-      this.productService.formSubmitted(this.form.controls['products'].value);
+      this.productService.formSubmitted(
+        this.form.get(FormGroupKey.PRODUCTS).value
+      );
     } else {
       this.form.markAllAsTouched();
     }
-  }
-
-  get name() {
-    return this.form.get('products.name');
   }
 }

@@ -4,50 +4,45 @@
       <div class="productsForm__row" [formGroup]="productForm">
         <mat-form-field appearance="legacy">
           <input matInput formControlName="name" placeholder="Product name" />
-          <mat-error *ngIf="productForm.get('name')?.errors?.['required']"
+          <mat-error *ngIf="productForm.get('name')?.hasError('required')"
             >Name is required</mat-error
           >
-          <mat-error *ngIf="productForm.get('name')?.errors?.['minlength']"
+          <mat-error *ngIf="productForm.get('name')?.hasError('minlength')"
             >Min length 3
           </mat-error>
-          <mat-error *ngIf="productForm.get('name')?.errors?.['maxlength']"
+          <mat-error *ngIf="productForm.get('name')?.hasError('maxlength')"
             >Max length 30
           </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="legacy">
-          <input
-            (change)="onChange(productForm)"
-            matInput
-            formControlName="count"
-            placeholder="Product count"
-          />
-          <mat-error *ngIf="productForm.get('count')?.errors?.['required']"
+          <input matInput formControlName="count" placeholder="Product count" />
+          <mat-error *ngIf="productForm.get('count')?.hasError('required')"
             >Count is required
           </mat-error>
-          <mat-error *ngIf="productForm.get('count')?.errors?.['min']"
+          <mat-error *ngIf="productForm.get('count')?.hasError('min')"
             >Min 1
           </mat-error>
-          <mat-error *ngIf="productForm.get('count')?.errors?.['max']"
+          <mat-error *ngIf="productForm.get('count')?.hasError('max')"
             >Max 100
           </mat-error>
-          <mat-error *ngIf="productForm.get('count')?.errors?.['pattern']"
+          <mat-error *ngIf="productForm.get('count')?.hasError('pattern')"
             >Please input number
           </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="legacy">
           <input matInput formControlName="price" placeholder="Product price" />
-          <mat-error *ngIf="productForm.get('price')?.errors?.['min']"
+          <mat-error *ngIf="productForm.get('price')?.hasError('min')"
             >Min 1
           </mat-error>
-          <mat-error *ngIf="productForm.get('price')?.errors?.['max']"
+          <mat-error *ngIf="productForm.get('price')?.hasError('max')"
             >Max 1000000
           </mat-error>
-          <mat-error *ngIf="productForm.get('price')?.errors?.['pattern']"
+          <mat-error *ngIf="productForm.get('price')?.hasError('pattern')"
             >Please input number
           </mat-error>
-          <mat-error *ngIf="productForm.get('price')?.errors?.['required']"
+          <mat-error *ngIf="productForm.get('price')?.hasError('required')"
             >Price is required
           </mat-error>
         </mat-form-field>
