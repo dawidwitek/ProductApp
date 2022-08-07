@@ -30,8 +30,6 @@ export class FormComponent implements OnInit {
     this.onAddProduct();
   }
 
-  onchange() {}
-
   public initForm(): void {
     this.form = this.fb.group({
       products: this.fb.array([]),
